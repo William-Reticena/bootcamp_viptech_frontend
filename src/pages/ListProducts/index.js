@@ -1,41 +1,34 @@
 import React from "react";
-import { Box, Button, Typography } from "@mui/material";
+import { Box, Button, ThemeProvider, Typography } from "@mui/material";
 import { AddCircle } from "@mui/icons-material";
 import { Header, Layout, ProductCard } from "../../components";
 import { products } from "../../fakeData/products/products";
+import { styles, theme } from "./styles";
 
 export const ListProducts = () => {
   return (
     <>
-      <Header />
+      <ThemeProvider theme={theme}>
+        <Header />
 
-      <Layout>
-        <Box
-          sx={{
-            display: "flex",
-            justifyContent: "space-between",
-            marginTop: "56px",
-          }}
-        >
-          <Box>
-            <Typography variant="h1" sx={{ fontSize: "2em" }}>
-              Produtos
-            </Typography>
+        <Layout>
+          <Box sx={styles.boxWrapper}>
+            <Box>
+              <Typography sx={styles.typoTitle} variant="h1">
+                Produtos
+              </Typography>
+            </Box>
+
+            <Button startIcon={<AddCircle />} variant="contained">
+              Adicionar Produto
+            </Button>
           </Box>
 
-          <Button
-            startIcon={<AddCircle />}
-            sx={{ background: "#0F4C81" }}
-            variant="contained"
-          >
-            Adicionar Produto
-          </Button>
-        </Box>
-
-        {products.map((item, index) => (
-          <ProductCard key={item.id} product={item} />
-        ))}
-      </Layout>
+          {products.map((item) => (
+            <ProductCard key={item.id} product={item} />
+          ))}
+        </Layout>
+      </ThemeProvider>
     </>
   );
 };
