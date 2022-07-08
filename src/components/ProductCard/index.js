@@ -1,4 +1,5 @@
 import React from "react";
+import { useNavigate } from "react-router-dom";
 import {
   Box,
   Card,
@@ -10,17 +11,24 @@ import {
 } from "@mui/material";
 import { Delete, Edit, ShoppingCart } from "@mui/icons-material";
 import { styles, theme } from "./styles";
+import { PAYMENT } from "../../routes/routes";
+
+// const productId = () => {
+
+// }
 
 const actionButtons = [
   {
     icon: <ShoppingCart />,
     color: "primary",
+    to: PAYMENT,
   },
-  { icon: <Edit />, color: "primary" },
-  { icon: <Delete />, color: "error" },
+  { icon: <Edit />, color: "primary", to: "#" },
+  { icon: <Delete />, color: "error", to: "#" },
 ];
 
 export const ProductCard = ({ product }) => {
+  const navigate = useNavigate();
   return (
     <ThemeProvider theme={theme}>
       <Paper elevation={4} sx={styles.paper}>
@@ -51,7 +59,13 @@ export const ProductCard = ({ product }) => {
 
         <Box sx={styles.boxActionsButtons}>
           {actionButtons.map((button, index) => (
-            <Fab color={button.color} key={index} size="small" sx={styles.fab}>
+            <Fab
+              color={button.color}
+              key={index}
+              size="small"
+              sx={styles.fab}
+              onClick={() => navigate(button.to + product.id)}
+            >
               {button.icon}
             </Fab>
           ))}

@@ -15,8 +15,7 @@ import {
   ThemeProvider,
   Typography,
 } from "@mui/material";
-import { DesktopDatePicker } from "@mui/x-date-pickers";
-import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
+import { DesktopDatePicker, LocalizationProvider } from "@mui/x-date-pickers";
 import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
 import { Header, Layout } from "../../components";
 import { styles, theme } from "./styles";
@@ -129,7 +128,12 @@ export const AddProduct = () => {
               </Box>
 
               <Box>
-                <Button fullWidth variant="contained" size="large">
+                <Button
+                  fullWidth
+                  size="large"
+                  variant="contained"
+                  onClick={() => navigate(LIST_PRODUCTS)}
+                >
                   Adicionar Produto
                 </Button>
               </Box>

@@ -7,7 +7,7 @@ import { products } from "../../fakeData/products/products";
 import { styles, theme } from "./styles";
 import { ADD_PRODUCT } from "../../routes/routes";
 
-export const ListProducts = () => {
+export const ProductsList = () => {
   const navigate = useNavigate();
 
   return (

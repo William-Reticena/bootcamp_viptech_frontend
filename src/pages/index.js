@@ -1,2 +1,3 @@
 export { AddProduct } from "./AddProduct";
-export { ListProducts } from "./ListProducts";
+export { ProductPayment } from "./ProductPayment";
+export { ProductsList } from "./ProductsList";

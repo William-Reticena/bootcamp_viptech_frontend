@@ -41,11 +41,11 @@ export const styles = {
     justifyContent: "center",
     margin: "8px 0 24px",
     padding: "24px 8px 0 8px",
-    width: "88px",
+    width: "96px",
   },
 
   icon: {
-    fontSize: "40px",
+    fontSize: "64px",
   },
 
   typoCaption: {
