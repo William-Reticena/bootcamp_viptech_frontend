@@ -1,11 +1,15 @@
 import React from "react";
+import { useNavigate } from "react-router-dom";
 import { Box, Button, ThemeProvider, Typography } from "@mui/material";
 import { AddCircle } from "@mui/icons-material";
 import { Header, Layout, ProductCard } from "../../components";
 import { products } from "../../fakeData/products/products";
 import { styles, theme } from "./styles";
+import { ADD_PRODUCT } from "../../routes/routes";
 
 export const ListProducts = () => {
+  const navigate = useNavigate();
+
   return (
     <>
       <ThemeProvider theme={theme}>
@@ -19,7 +23,11 @@ export const ListProducts = () => {
               </Typography>
             </Box>
 
-            <Button startIcon={<AddCircle />} variant="contained">
+            <Button
+              startIcon={<AddCircle />}
+              variant="contained"
+              onClick={() => navigate(ADD_PRODUCT)}
+            >
               Adicionar Produto
             </Button>
           </Box>
