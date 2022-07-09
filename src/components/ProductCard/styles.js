@@ -48,4 +48,25 @@ export const styles = {
   fab: {
     marginLeft: "16px",
   },
+
+  modal: {
+    alignItems: "center",
+    display: "flex",
+    justifyContent: "center",
+  },
+
+  modalPaper: {
+    display: "flex",
+    flexDirection: "column",
+    height: "20%",
+    justifyContent: "space-between",
+    padding: "24px",
+    width: "40%",
+  },
+
+  modalBox: {
+    display: "flex",
+    justifyContent: "space-evenly",
+    width: "100%",
+  },
 };

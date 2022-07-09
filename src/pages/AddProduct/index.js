@@ -17,14 +17,15 @@ export const AddProduct = () => {
 
   const breadcrumbs = [
     <Link
+      sx={{ color: "#0F4C81" }}
       underline="hover"
       key="1"
-      color="inherit"
+      // color="primary"
       onClick={() => navigate(LIST_PRODUCTS)}
     >
       Home
     </Link>,
-    <Typography key="2" color="text.primary">
+    <Typography key="2" sx={{ color: "#0F4C81" }}>
       Adicionar Produto
     </Typography>,
   ];
@@ -37,6 +38,11 @@ export const AddProduct = () => {
     productDate: formatISO(new Date()),
     productImg: "",
     productImgName: "",
+  };
+
+  const handleCreate = (values) => {
+    alert(JSON.stringify(values, null, 2));
+    navigate(LIST_PRODUCTS);
   };
 
   return (
@@ -53,7 +59,7 @@ export const AddProduct = () => {
             Adicionar Produto
           </Typography>
 
-          <ProductForm initialValues={initialValues} />
+          <ProductForm initialValues={initialValues} onSubmit={handleCreate} />
         </Box>
       </ThemeProvider>
     </Layout>

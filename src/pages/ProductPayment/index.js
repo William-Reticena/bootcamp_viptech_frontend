@@ -28,12 +28,12 @@ export const ProductPayment = () => {
     <Link
       underline="hover"
       key="1"
-      color="inherit"
+      sx={{ color: "#0F4C81" }}
       onClick={() => navigate(LIST_PRODUCTS)}
     >
       Home
     </Link>,
-    <Typography key="2" color="text.primary">
+    <Typography key="2" sx={{ color: "#0F4C81" }}>
       Carrinho
     </Typography>,
   ];
@@ -110,8 +110,13 @@ export const ProductPayment = () => {
 
             <Card sx={styles.cardOrderSummary} variant="outlined">
               <Box sx={styles.boxOrderSummary}>
-                <Typography component="span" sx={{fontSize: "1.2em"}}>Subtotal (1 item)</Typography>
-                <Typography component="span" sx={{fontSize: "1.2em"}}>{`R$ ${product.price}`}</Typography>
+                <Typography component="span" sx={{ fontSize: "1.2em" }}>
+                  Subtotal (1 item)
+                </Typography>
+                <Typography
+                  component="span"
+                  sx={{ fontSize: "1.2em" }}
+                >{`R$ ${product.price}`}</Typography>
               </Box>
 
               <Divider />
@@ -129,7 +134,9 @@ export const ProductPayment = () => {
               </Box>
 
               {/* <Divider /> */}
-              <Button fullWidth variant="contained">Pagar</Button>
+              <Button fullWidth variant="contained">
+                Pagar
+              </Button>
             </Card>
           </Box>
         </Box>

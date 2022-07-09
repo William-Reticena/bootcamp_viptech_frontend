@@ -3,7 +3,6 @@ import { DesktopDatePicker, LocalizationProvider } from "@mui/x-date-pickers";
 import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
 import { useFormik } from "formik";
 import { formatISO } from "date-fns";
-import { useNavigate } from "react-router-dom";
 import {
   Box,
   Button,
@@ -14,22 +13,17 @@ import {
   Select,
   TextField,
 } from "@mui/material";
-import AddPhoto from "../../img/Add_photo_alternate.png";
-import { LIST_PRODUCTS } from "../../routes/routes";
 import { styles } from "./styles";
+import AddPhoto from "../../img/Add_photo_alternate.png";
 
-export const ProductForm = ({ initialValues }) => {
+export const ProductForm = ({ edit, initialValues, onSubmit }) => {
   const [value, setValue] = useState(new Date());
-  const navigate = useNavigate();
   const photoRef = useRef();
   const fileRef = useRef();
 
   const formik = useFormik({
     initialValues,
-    onSubmit: (values) => {
-      alert(JSON.stringify(values, null, 2));
-      navigate(LIST_PRODUCTS);
-    },
+    onSubmit,
   });
 
   const handleChange = (newValue) => {
@@ -54,7 +48,7 @@ export const ProductForm = ({ initialValues }) => {
 
         formik.setFieldValue("productImgName", fileRef.current.files[0].name);
 
-        console.log(fileRef.current.files[0].name);
+        // console.log(fileRef.current.files[0].name);
       };
 
       // reader.onabort = () => {
@@ -135,10 +129,10 @@ export const ProductForm = ({ initialValues }) => {
 
         <Box sx={styles.boxIcon} onClick={handleImgClick}>
           <img
-            alt="#"
+            alt="Imagem do produto"
             height={100}
             ref={photoRef}
-            src={AddPhoto}
+            src={formik.values.productImg ? formik.values.productImg : AddPhoto}
             style={styles.img}
             width={100}
           />
@@ -148,7 +142,7 @@ export const ProductForm = ({ initialValues }) => {
 
         <Box>
           <Button fullWidth size="large" type="submit" variant="contained">
-            Adicionar Produto
+            {!!edit ? "Salvar Produto" : "Adicionar Produto"}
           </Button>
         </Box>
       </Box>

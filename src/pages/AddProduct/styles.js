@@ -22,6 +22,7 @@ export const styles = {
   },
 
   breadcrumbs: {
+    color: "#0F4C81",
     marginBottom: "16px",
   },
 };

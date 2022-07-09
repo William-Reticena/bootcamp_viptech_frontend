@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import {
   Box,
@@ -12,6 +12,7 @@ import {
 import { Delete, Edit, ShoppingCart } from "@mui/icons-material";
 import { styles, theme } from "./styles";
 import { EDIT_PRODUCT, PAYMENT } from "../../routes/routes";
+import { ModalDelete } from "./modalDelete";
 
 const actionButtons = [
   {
@@ -25,6 +26,23 @@ const actionButtons = [
 
 export const ProductCard = ({ product }) => {
   const navigate = useNavigate();
+  const [open, setOpen] = useState(false);
+  const handleOpen = () => setOpen(true);
+  const handleClose = () => setOpen(false);
+
+  const handleClick = (button) => {
+    if (button.to !== "#") {
+      navigate(`${button.to}/${product.id}`);
+    }
+    // console.log(button.to);
+    handleOpen();
+  };
+
+  const handleDelete = () => {
+    alert("Item deletado com sucesso!");
+    handleClose();
+  };
+
   return (
     <ThemeProvider theme={theme}>
       <Paper elevation={4} sx={styles.paper}>
@@ -60,12 +78,19 @@ export const ProductCard = ({ product }) => {
               key={index}
               size="small"
               sx={styles.fab}
-              onClick={() => navigate(`${button.to}/${product.id}`)}
+              onClick={() => handleClick(button)}
             >
               {button.icon}
             </Fab>
           ))}
         </Box>
+
+        <ModalDelete
+          open={open}
+          product={product}
+          onClose={handleClose}
+          onConfirm={handleDelete}
+        />
       </Paper>
     </ThemeProvider>
   );
