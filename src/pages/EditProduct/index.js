@@ -1,6 +1,6 @@
 import React from "react";
-import { useNavigate } from "react-router";
 import { formatISO } from "date-fns";
+import { useNavigate } from "react-router-dom";
 import {
   Box,
   Breadcrumbs,
@@ -12,7 +12,7 @@ import { Header, Layout, ProductForm } from "../../components";
 import { styles, theme } from "./styles";
 import { LIST_PRODUCTS } from "../../routes/routes";
 
-export const AddProduct = () => {
+export const EditProduct = () => {
   const navigate = useNavigate();
 
   const breadcrumbs = [
@@ -25,7 +25,7 @@ export const AddProduct = () => {
       Home
     </Link>,
     <Typography key="2" color="text.primary">
-      Adicionar Produto
+      Editar Produto
     </Typography>,
   ];
 
@@ -50,7 +50,7 @@ export const AddProduct = () => {
           </Breadcrumbs>
 
           <Typography sx={styles.typoTitle} variant="h1">
-            Adicionar Produto
+            Editar Produto
           </Typography>
 
           <ProductForm initialValues={initialValues} />

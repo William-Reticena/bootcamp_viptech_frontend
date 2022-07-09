@@ -11,11 +11,7 @@ import {
 } from "@mui/material";
 import { Delete, Edit, ShoppingCart } from "@mui/icons-material";
 import { styles, theme } from "./styles";
-import { PAYMENT } from "../../routes/routes";
-
-// const productId = () => {
-
-// }
+import { EDIT_PRODUCT, PAYMENT } from "../../routes/routes";
 
 const actionButtons = [
   {
@@ -23,7 +19,7 @@ const actionButtons = [
     color: "primary",
     to: PAYMENT,
   },
-  { icon: <Edit />, color: "primary", to: "#" },
+  { icon: <Edit />, color: "primary", to: EDIT_PRODUCT },
   { icon: <Delete />, color: "error", to: "#" },
 ];
 
@@ -64,7 +60,7 @@ export const ProductCard = ({ product }) => {
               key={index}
               size="small"
               sx={styles.fab}
-              onClick={() => navigate(button.to + product.id)}
+              onClick={() => navigate(`${button.to}/${product.id}`)}
             >
               {button.icon}
             </Fab>
