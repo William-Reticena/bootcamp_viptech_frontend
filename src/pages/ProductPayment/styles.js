@@ -93,4 +93,18 @@ export const styles = {
     display: "flex",
     justifyContent: "space-between",
   },
+
+  typoOrderSummary: {
+    alignItems: "center",
+    display: "flex",
+    fontSize: "1.2em",
+    maxWidth: "200px",
+    overflow: "hidden",
+    textOverflow: "ellipsis",
+    whiteSpace: "nowrap",
+  },
+
+  infoIcon: {
+    marginLeft: "8px"
+  }
 };

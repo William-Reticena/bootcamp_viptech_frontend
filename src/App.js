@@ -1,5 +1,5 @@
 import React from "react";
-import { BrowserRouter, Route, Routes } from "react-router-dom";
+import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
 import {
   ADD_PRODUCT,
   EDIT_PRODUCT,
@@ -12,6 +12,7 @@ function App() {
   return (
     <BrowserRouter>
       <Routes>
+        <Route exact path="/" element={<Navigate to={LIST_PRODUCTS} />} />
         <Route path={ADD_PRODUCT} element={<AddProduct />} />
         <Route path={`${EDIT_PRODUCT}/:id`} element={<EditProduct />} />
         <Route path={LIST_PRODUCTS} element={<ProductsList />} />

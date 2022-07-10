@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   Box,
   Breadcrumbs,
@@ -10,19 +10,41 @@ import {
   Link,
   TextField,
   ThemeProvider,
+  Tooltip,
   Typography,
 } from "@mui/material";
-import { AddCircleOutline, RemoveCircleOutline } from "@mui/icons-material";
+import {
+  AddCircleOutline,
+  Info,
+  RemoveCircleOutline,
+} from "@mui/icons-material";
 import { useNavigate, useParams } from "react-router-dom";
 import { Header, Layout } from "../../components";
 import { styles, theme } from "./styles";
 import { LIST_PRODUCTS } from "../../routes/routes";
 import { products } from "../../fakeData/products/products";
 
+const numberBanknotes = (total = 500) => {
+  const bankNotes = [100, 50, 20, 10, 5, 2];
+  let j = 0;
+
+  while (j < bankNotes.length) {
+    if (total > 0) {
+      total -= bankNotes[j];
+    } else j++; 
+    console.log(total);
+  }
+};
+
 export const ProductPayment = () => {
+  const [inputValue, setInputValue] = useState(1);
   const navigate = useNavigate();
   const { id } = useParams();
   const product = products[id - 1];
+
+  const subtotal = product.price * inputValue;
+  const shipping = subtotal * 0.1;
+  const total = subtotal + shipping;
 
   const breadcrumbs = [
     <Link
@@ -37,6 +59,23 @@ export const ProductPayment = () => {
       Carrinho
     </Typography>,
   ];
+
+  const handleChange = (event) => {
+    setInputValue(event.target.value);
+
+    if (parseInt(event.target.value) <= 0 || isNaN(event.target.value)) {
+      setInputValue(1);
+    }
+  };
+
+  const handleBlur = (event) => {
+    if (event.target.value === "") setInputValue(1);
+  };
+
+  const increment = () => setInputValue((prev) => prev + 1);
+  const decrement = () => {
+    if (inputValue > 1) setInputValue((prev) => prev - 1);
+  };
 
   return (
     <Layout>
@@ -83,17 +122,19 @@ export const ProductPayment = () => {
               <Box sx={styles.boxQtd}>
                 <Box sx={styles.boxQtdInner}>
                   <Typography>Quantidade:</Typography>
-                  <IconButton>
+                  <IconButton onClick={decrement}>
                     <RemoveCircleOutline />
                   </IconButton>
 
                   <TextField
                     size="small"
                     sx={styles.typoQtd}
-                    defaultValue={10}
+                    value={inputValue}
+                    onBlur={handleBlur}
+                    onChange={handleChange}
                   />
 
-                  <IconButton>
+                  <IconButton onClick={increment}>
                     <AddCircleOutline />
                   </IconButton>
                 </Box>
@@ -110,33 +151,53 @@ export const ProductPayment = () => {
 
             <Card sx={styles.cardOrderSummary} variant="outlined">
               <Box sx={styles.boxOrderSummary}>
-                <Typography component="span" sx={{ fontSize: "1.2em" }}>
-                  Subtotal (1 item)
+                <Typography component="span" sx={styles.typoOrderSummary}>
+                  {`Subtotal ${inputValue ? `(${inputValue} item)` : ""}`}
                 </Typography>
+
                 <Typography
                   component="span"
-                  sx={{ fontSize: "1.2em" }}
-                >{`R$ ${product.price}`}</Typography>
+                  sx={styles.typoOrderSummary}
+                >{`R$ ${subtotal}`}</Typography>
               </Box>
 
               <Divider />
 
               <Box sx={styles.boxOrderSummary}>
-                <Typography component="span">Frete</Typography>
-                <Typography component="span">{`R$ ${product.price}`}</Typography>
+                <Typography component="span" sx={styles.typoOrderSummary}>
+                  Frete
+                  <Tooltip arrow title="Preço calculado em 10% do produto">
+                    <Info color="error" fontSize="small" sx={styles.infoIcon} />
+                  </Tooltip>
+                </Typography>
+
+                <Typography
+                  component="span"
+                  sx={styles.typoOrderSummary}
+                >{`R$ ${shipping}`}</Typography>
               </Box>
 
               <Divider />
 
               <Box sx={styles.boxOrderSummary}>
-                <Typography component="span">Valor Total</Typography>
-                <Typography component="span">{`R$ ${product.price}`}</Typography>
+                <Typography component="span" sx={styles.typoOrderSummary}>
+                  Valor Total
+                </Typography>
+
+                <Typography
+                  component="span"
+                  sx={styles.typoOrderSummary}
+                >{`R$ ${total}`}</Typography>
               </Box>
 
-              {/* <Divider /> */}
               <Button fullWidth variant="contained">
                 Pagar
               </Button>
+            </Card>
+            <Card variant="outlined">
+              <Typography>Pagamento realizado com Sucesso!</Typography>
+              <Typography>Este pagamento foi realizado com</Typography>
+              <Typography>Este pagamento foi realizado com</Typography>
             </Card>
           </Box>
         </Box>
