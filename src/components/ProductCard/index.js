@@ -13,6 +13,7 @@ import { Delete, Edit, ShoppingCart } from "@mui/icons-material";
 import { styles, theme } from "./styles";
 import { EDIT_PRODUCT, PAYMENT } from "../../routes/routes";
 import { ModalDelete } from "./modalDelete";
+import formatNumber from "../../utils/formatNumber";
 
 const actionButtons = [
   {
@@ -66,7 +67,7 @@ export const ProductCard = ({ product }) => {
             sx={styles.typoProductPrice}
             variant="caption"
           >
-            {`R$ ${product.price}`}
+            {`R$ ${formatNumber(product.price)}`}
           </Typography>
           <Typography variant="caption">{`Cor: ${product.color}`}</Typography>
         </Box>

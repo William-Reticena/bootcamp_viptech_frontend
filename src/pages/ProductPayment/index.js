@@ -24,6 +24,8 @@ import { styles, theme } from "./styles";
 import { LIST_PRODUCTS } from "../../routes/routes";
 import { products } from "../../fakeData/products/products";
 import countNumberNotes from "../../utils/countNumberNotes";
+import isPlural from "../../utils/isPlural";
+import formatNumber from "../../utils/formatNumber";
 
 export const ProductPayment = () => {
   const [banknotes, setBanknotes] = useState([]);
@@ -69,9 +71,8 @@ export const ProductPayment = () => {
   };
 
   const handlePurchase = () => {
-    console.log(countNumberNotes(total));
-
     setBanknotes(countNumberNotes(total));
+
     setIsPurchased((prevState) => !prevState);
   };
 
@@ -120,11 +121,12 @@ export const ProductPayment = () => {
               <Box sx={styles.boxQtd}>
                 <Box sx={styles.boxQtdInner}>
                   <Typography>Quantidade:</Typography>
-                  <IconButton onClick={decrement}>
+                  <IconButton disabled={!!isPurchased} onClick={decrement}>
                     <RemoveCircleOutline />
                   </IconButton>
 
                   <TextField
+                    disabled={!!isPurchased}
                     size="small"
                     sx={styles.typoQtd}
                     value={inputValue}
@@ -132,7 +134,7 @@ export const ProductPayment = () => {
                     onChange={handleChange}
                   />
 
-                  <IconButton onClick={increment}>
+                  <IconButton disabled={!!isPurchased} onClick={increment}>
                     <AddCircleOutline />
                   </IconButton>
                 </Box>
@@ -150,13 +152,17 @@ export const ProductPayment = () => {
             <Card sx={styles.cardOrderSummary} variant="outlined">
               <Box sx={styles.boxOrderSummary}>
                 <Typography component="span" sx={styles.typoOrderSummary}>
-                  {`Subtotal ${inputValue ? `(${inputValue} item)` : ""}`}
+                  {`Subtotal ${
+                    inputValue
+                      ? `(${inputValue} ${isPlural(inputValue, "item")})`
+                      : ""
+                  }`}
                 </Typography>
 
                 <Typography
                   component="span"
                   sx={styles.typoOrderSummary}
-                >{`R$ ${subtotal}`}</Typography>
+                >{`R$ ${formatNumber(subtotal)}`}</Typography>
               </Box>
 
               <Divider />
@@ -172,7 +178,7 @@ export const ProductPayment = () => {
                 <Typography
                   component="span"
                   sx={styles.typoOrderSummary}
-                >{`R$ ${shipping}`}</Typography>
+                >{`R$ ${formatNumber(shipping)}`}</Typography>  
               </Box>
 
               <Divider />
@@ -185,7 +191,7 @@ export const ProductPayment = () => {
                 <Typography
                   component="span"
                   sx={styles.typoOrderSummary}
-                >{`R$ ${total}`}</Typography>
+                >{`R$ ${formatNumber(total)}`}</Typography>
               </Box>
 
               <Button
@@ -211,8 +217,11 @@ export const ProductPayment = () => {
 
                 {banknotes.map((item, index) => (
                   <Typography key={index} sx={styles.typoMoneyBill}>
-                    <strong>{`${item.amount} cédulas`}</strong> de{" "}
-                    <strong>{`R$ ${item.bankNote},00`}</strong>
+                    <strong>{`${item.amount} ${isPlural(
+                      item.amount,
+                      "cédula"
+                    )}`}</strong>{" "}
+                    de <strong>{`R$ ${item.bankNote},00`}</strong>
                   </Typography>
                 ))}
               </Card>

@@ -15,6 +15,7 @@ import {
 } from "@mui/material";
 import { styles } from "./styles";
 import AddPhoto from "../../img/Add_photo_alternate.png";
+import formatNumber from "../../utils/formatNumber";
 
 export const ProductForm = ({ edit, initialValues, onSubmit }) => {
   const [value, setValue] = useState(new Date());
@@ -95,7 +96,7 @@ export const ProductForm = ({ edit, initialValues, onSubmit }) => {
           name="productPrice"
           placeholder="000,00"
           size="small"
-          value={formik.values.productPrice}
+          value={formatNumber(formik.values.productPrice)}
           onChange={formik.handleChange}
         />
 
@@ -141,7 +142,7 @@ export const ProductForm = ({ edit, initialValues, onSubmit }) => {
         <input accept="image/*" hidden ref={fileRef} type="file" />
 
         <Box>
-          <Button fullWidth size="large" type="submit" variant="contained">
+          <Button fullWidth type="submit" variant="contained">
             {!!edit ? "Salvar Produto" : "Adicionar Produto"}
           </Button>
         </Box>
