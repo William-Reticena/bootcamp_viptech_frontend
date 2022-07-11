@@ -86,7 +86,7 @@ export const styles = {
     height: "260px",
     justifyContent: "space-between",
     padding: "16px",
-    width: "280px",
+    width: "320px",
   },
 
   boxOrderSummary: {
@@ -105,6 +105,30 @@ export const styles = {
   },
 
   infoIcon: {
-    marginLeft: "8px"
-  }
+    marginLeft: "8px",
+  },
+
+  cardPaymentFinished: {
+    border: "1px solid green",
+    marginTop: "8px",
+    padding: "10px",
+  },
+
+  typoPaymentSuccess: {
+    color: "green",
+    fontSize: "1.2em",
+    textAlign: "center",
+  },
+
+  typoAmountNotes: {
+    color: "green",
+    marginTop: "16px",
+    textAlign: "center",
+  },
+
+  typoMoneyBill: {
+    color: "green",
+    textAlign: "center",
+  },
 };
+

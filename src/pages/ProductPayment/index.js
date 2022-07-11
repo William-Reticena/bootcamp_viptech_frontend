@@ -24,18 +24,6 @@ import { styles, theme } from "./styles";
 import { LIST_PRODUCTS } from "../../routes/routes";
 import { products } from "../../fakeData/products/products";
 
-const numberBanknotes = (total = 500) => {
-  const bankNotes = [100, 50, 20, 10, 5, 2];
-  let j = 0;
-
-  while (j < bankNotes.length) {
-    if (total > 0) {
-      total -= bankNotes[j];
-    } else j++; 
-    console.log(total);
-  }
-};
-
 export const ProductPayment = () => {
   const [inputValue, setInputValue] = useState(1);
   const navigate = useNavigate();
@@ -190,14 +178,20 @@ export const ProductPayment = () => {
                 >{`R$ ${total}`}</Typography>
               </Box>
 
-              <Button fullWidth variant="contained">
+              <Button fullWidth size="large" variant="contained">
                 Pagar
               </Button>
             </Card>
-            <Card variant="outlined">
-              <Typography>Pagamento realizado com Sucesso!</Typography>
-              <Typography>Este pagamento foi realizado com</Typography>
-              <Typography>Este pagamento foi realizado com</Typography>
+            <Card sx={styles.cardPaymentFinished} variant="outlined">
+              <Typography sx={styles.typoPaymentSuccess}>
+                <strong>Pagamento realizado com Sucesso!</strong>
+              </Typography>
+              <Typography sx={styles.typoAmountNotes}>
+                Este pagamento foi realizado com
+              </Typography>
+              <Typography sx={styles.typoMoneyBill}>
+                <strong>3 cédulas</strong> de <strong>R$ 100,00</strong>
+              </Typography>
             </Card>
           </Box>
         </Box>

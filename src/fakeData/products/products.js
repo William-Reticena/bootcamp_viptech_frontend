@@ -11,6 +11,7 @@ export const products = [
     color: "Branco",
     img: Img1,
   },
+
   {
     id: 2,
     name: "Câmera DS-2CD 2583G2-I",
@@ -19,6 +20,7 @@ export const products = [
     color: "Branco",
     img: Img2,
   },
+
   {
     id: 3,
     name: "Câmera interna inteligente Wi-Fi Full HD iM4",
