@@ -23,8 +23,11 @@ import { Header, Layout } from "../../components";
 import { styles, theme } from "./styles";
 import { LIST_PRODUCTS } from "../../routes/routes";
 import { products } from "../../fakeData/products/products";
+import countNumberNotes from "../../utils/countNumberNotes";
 
 export const ProductPayment = () => {
+  const [banknotes, setBanknotes] = useState([]);
+  const [isPurchased, setIsPurchased] = useState(false);
   const [inputValue, setInputValue] = useState(1);
   const navigate = useNavigate();
   const { id } = useParams();
@@ -63,6 +66,13 @@ export const ProductPayment = () => {
   const increment = () => setInputValue((prev) => prev + 1);
   const decrement = () => {
     if (inputValue > 1) setInputValue((prev) => prev - 1);
+  };
+
+  const handlePurchase = () => {
+    console.log(countNumberNotes(total));
+
+    setBanknotes(countNumberNotes(total));
+    setIsPurchased((prevState) => !prevState);
   };
 
   return (
@@ -178,21 +188,35 @@ export const ProductPayment = () => {
                 >{`R$ ${total}`}</Typography>
               </Box>
 
-              <Button fullWidth size="large" variant="contained">
+              <Button
+                disabled={!!isPurchased}
+                fullWidth
+                size="large"
+                variant="contained"
+                onClick={handlePurchase}
+              >
                 Pagar
               </Button>
             </Card>
-            <Card sx={styles.cardPaymentFinished} variant="outlined">
-              <Typography sx={styles.typoPaymentSuccess}>
-                <strong>Pagamento realizado com Sucesso!</strong>
-              </Typography>
-              <Typography sx={styles.typoAmountNotes}>
-                Este pagamento foi realizado com
-              </Typography>
-              <Typography sx={styles.typoMoneyBill}>
-                <strong>3 cédulas</strong> de <strong>R$ 100,00</strong>
-              </Typography>
-            </Card>
+
+            {!!isPurchased && (
+              <Card sx={styles.cardPaymentFinished} variant="outlined">
+                <Typography sx={styles.typoPaymentSuccess}>
+                  <strong>Pagamento realizado com Sucesso!</strong>
+                </Typography>
+
+                <Typography sx={styles.typoAmountNotes}>
+                  Este pagamento foi realizado com
+                </Typography>
+
+                {banknotes.map((item, index) => (
+                  <Typography key={index} sx={styles.typoMoneyBill}>
+                    <strong>{`${item.amount} cédulas`}</strong> de{" "}
+                    <strong>{`R$ ${item.bankNote},00`}</strong>
+                  </Typography>
+                ))}
+              </Card>
+            )}
           </Box>
         </Box>
       </ThemeProvider>

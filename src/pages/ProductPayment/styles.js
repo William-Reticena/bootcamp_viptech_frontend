@@ -122,7 +122,7 @@ export const styles = {
 
   typoAmountNotes: {
     color: "green",
-    marginTop: "16px",
+    margin: "8px 0",
     textAlign: "center",
   },
 
