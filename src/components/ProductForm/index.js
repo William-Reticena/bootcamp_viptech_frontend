@@ -1,4 +1,5 @@
 import React, { useEffect, useRef, useState } from "react";
+import * as yup from "yup";
 import { DesktopDatePicker, LocalizationProvider } from "@mui/x-date-pickers";
 import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
 import { useFormik } from "formik";
@@ -7,6 +8,7 @@ import {
   Box,
   Button,
   FormControl,
+  FormHelperText,
   InputAdornment,
   InputLabel,
   MenuItem,
@@ -21,14 +23,32 @@ export const ProductForm = ({ edit, initialValues, onSubmit }) => {
   const photoRef = useRef();
   const fileRef = useRef();
 
+  const schema = yup.object().shape({
+    productName: yup.string().required("Este campo é obrigatório!"),
+    productBrand: yup.string().required("Este campo é obrigatório!"),
+    productPrice: yup
+      .string()
+      .required("Este campo é obrigatório!")
+      .matches(
+        /(^[0-9]*(,|\.)?([0-9]{0,2})?$)(?![A-Za-z])/,
+        "Deve conter apenas números"
+      )
+      .matches(
+        /^[0-9]*(,|\.)?([0-9]{0,2})?$/,
+        "Use apenas duas casas decimais"
+      ),
+    productColor: yup.string().required("Este campo é obrigatório!"),
+  });
+
   const formik = useFormik({
+    validationSchema: schema,
     initialValues,
     onSubmit,
-    enableReinitialize: true,
-    onReset: () => {
-      console.log("resetando");
-      formik.setValues({ initialValues });
-    },
+    // enableReinitialize: true,
+    // onReset: () => {
+    //   console.log("resetando");
+    //   formik.setValues({ initialValues });
+    // },
   });
 
   // useEffect(() => {
@@ -36,7 +56,7 @@ export const ProductForm = ({ edit, initialValues, onSubmit }) => {
   // }, [initialValues]);
 
   const handleChange = (newValue) => {
-    setValue(formatISO(newValue));
+    setValue(newValue);
     // console.log(newValue);
     formik.setFieldValue("productDate", formatISO(newValue));
     // console.log(formatISO(newValue));
@@ -71,8 +91,10 @@ export const ProductForm = ({ edit, initialValues, onSubmit }) => {
   return (
     <Box component="form" onSubmit={formik.handleSubmit}>
       <TextField
+        error={formik.touched.productName && !!formik.errors.productName}
         fullWidth
         label="Nome do Produto"
+        helperText={formik.touched.productName && formik.errors.productName}
         margin="normal"
         name="productName"
         placeholder="Digite o nome do produto"
@@ -82,8 +104,10 @@ export const ProductForm = ({ edit, initialValues, onSubmit }) => {
       />
 
       <TextField
+        error={formik.touched.productBrand && !!formik.errors.productBrand}
         fullWidth
         label="Marca"
+        helperText={formik.touched.productBrand && formik.errors.productBrand}
         margin="normal"
         name="productBrand"
         placeholder="Digite a marca do produto"
@@ -94,12 +118,14 @@ export const ProductForm = ({ edit, initialValues, onSubmit }) => {
 
       <Box sx={styles.boxSub}>
         <TextField
+          error={formik.touched.productPrice && !!formik.errors.productPrice}
           InputProps={{
             startAdornment: (
               <InputAdornment position="start">R$</InputAdornment>
             ),
           }}
           label="Valor"
+          helperText={formik.touched.productPrice && formik.errors.productPrice}
           margin="normal"
           name="productPrice"
           placeholder="000,00"
@@ -107,8 +133,12 @@ export const ProductForm = ({ edit, initialValues, onSubmit }) => {
           value={formik.values.productPrice}
           onChange={formik.handleChange}
         />
-
-        <FormControl fullWidth sx={styles.formControl} size="small">
+        <FormControl
+          error={formik.touched.productColor && !!formik.errors.productColor}
+          fullWidth
+          sx={styles.formControl}
+          size="small"
+        >
           <InputLabel id="select-color">Cor</InputLabel>
           <Select
             id="select-color"
@@ -121,8 +151,11 @@ export const ProductForm = ({ edit, initialValues, onSubmit }) => {
             <MenuItem value={"Preto"}>Preto</MenuItem>
             <MenuItem value={"Azul"}>Azul</MenuItem>
           </Select>
-        </FormControl>
 
+          {formik.touched.productColor && formik.errors.productColor && (
+            <FormHelperText>{formik.errors.productColor}</FormHelperText>
+          )}
+        </FormControl>
         <FormControl fullWidth sx={styles.formControl}>
           <LocalizationProvider dateAdapter={AdapterDateFns}>
             <DesktopDatePicker
@@ -135,7 +168,6 @@ export const ProductForm = ({ edit, initialValues, onSubmit }) => {
             />
           </LocalizationProvider>
         </FormControl>
-
         <Box sx={styles.boxIcon} onClick={handleImgClick}>
           <img
             alt="Imagem do produto"
@@ -146,9 +178,7 @@ export const ProductForm = ({ edit, initialValues, onSubmit }) => {
             width={100}
           />
         </Box>
-
         <input accept="image/*" hidden ref={fileRef} type="file" />
-
         <Box>
           <Button fullWidth type="submit" variant="contained">
             {!!edit ? "Salvar Produto" : "Adicionar Produto"}
