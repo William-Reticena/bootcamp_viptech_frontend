@@ -37,7 +37,7 @@ export const AddProduct = () => {
     productColor: "",
     productDate: formatISO(new Date()),
     productImg: "",
-    productImgName: "",
+    productImgobj: "",
   };
 
   const handleCreate = (values) => {

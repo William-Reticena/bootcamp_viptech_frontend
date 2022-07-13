@@ -12,6 +12,7 @@ import { Header, Layout, ProductForm } from "../../components";
 import { styles, theme } from "./styles";
 import { LIST_PRODUCTS } from "../../routes/routes";
 import { products } from "../../fakeData/products/products";
+import formatNumber from "../../utils/formatNumber";
 
 export const EditProduct = () => {
   const navigate = useNavigate();
@@ -34,11 +35,11 @@ export const EditProduct = () => {
   const initialValues = {
     productName: products[id - 1].name,
     productBrand: products[id - 1].brand,
-    productPrice: products[id - 1].price,
+    productPrice: formatNumber(products[id - 1].price),
     productColor: products[id - 1].color,
     productDate: formatISO(new Date()),
     productImg: products[id - 1].img,
-    productImgName: "",
+    productImgObj: "",
   };
 
   const handleEdit = (values) => {

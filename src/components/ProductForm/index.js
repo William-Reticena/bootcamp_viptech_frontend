@@ -15,7 +15,6 @@ import {
 } from "@mui/material";
 import { styles } from "./styles";
 import AddPhoto from "../../img/Add_photo_alternate.png";
-import formatNumber from "../../utils/formatNumber";
 
 export const ProductForm = ({ edit, initialValues, onSubmit }) => {
   const [value, setValue] = useState(new Date());
@@ -47,9 +46,9 @@ export const ProductForm = ({ edit, initialValues, onSubmit }) => {
           URL.createObjectURL(fileRef.current.files[0])
         );
 
-        formik.setFieldValue("productImgName", fileRef.current.files[0].name);
+        formik.setFieldValue("productImgObj", fileRef.current.files[0]);
 
-        // console.log(fileRef.current.files[0].name);
+        // console.log(fileRef.current.files[0]);
       };
 
       // reader.onabort = () => {
@@ -96,7 +95,7 @@ export const ProductForm = ({ edit, initialValues, onSubmit }) => {
           name="productPrice"
           placeholder="000,00"
           size="small"
-          value={formatNumber(formik.values.productPrice)}
+          value={formik.values.productPrice}
           onChange={formik.handleChange}
         />
 
