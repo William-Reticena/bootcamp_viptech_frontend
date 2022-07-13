@@ -12,7 +12,7 @@ function App() {
   return (
     <BrowserRouter>
       <Routes>
-        <Route exact path="/" element={<Navigate to={LIST_PRODUCTS} />} />
+        <Route exact path="/" element={<Navigate to={LIST_PRODUCTS} replace />} />
         <Route path={ADD_PRODUCT} element={<AddProduct />} />
         <Route path={`${EDIT_PRODUCT}/:id`} element={<EditProduct />} />
         <Route path={LIST_PRODUCTS} element={<ProductsList />} />

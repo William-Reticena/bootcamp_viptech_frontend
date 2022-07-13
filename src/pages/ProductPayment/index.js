@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   Box,
   Breadcrumbs,
@@ -22,18 +22,20 @@ import { useNavigate, useParams } from "react-router-dom";
 import { Header, Layout } from "../../components";
 import { styles, theme } from "./styles";
 import { LIST_PRODUCTS } from "../../routes/routes";
-import { products } from "../../fakeData/products/products";
+// import { products } from "../../fakeData/products/products";
 import countNumberNotes from "../../utils/countNumberNotes";
 import isPlural from "../../utils/isPlural";
 import formatNumber from "../../utils/formatNumber";
+import api from "../../services/api";
 
 export const ProductPayment = () => {
   const [banknotes, setBanknotes] = useState([]);
   const [isPurchased, setIsPurchased] = useState(false);
   const [inputValue, setInputValue] = useState(1);
+  const [product, setProduct] = useState("");
   const navigate = useNavigate();
   const { id } = useParams();
-  const product = products[id - 1];
+  // const product = products[id - 1];
 
   const subtotal = product.price * inputValue;
   const shipping = subtotal * 0.1;
@@ -75,6 +77,20 @@ export const ProductPayment = () => {
 
     setIsPurchased((prevState) => !prevState);
   };
+
+  useEffect(() => {
+    const fetch = async () => {
+      try {
+        const { data } = await api.get(`/product/${id}`);
+
+        setProduct(data);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+
+    fetch();
+  }, [id]);
 
   return (
     <Layout>
@@ -139,7 +155,7 @@ export const ProductPayment = () => {
                   </IconButton>
                 </Box>
 
-                <Typography>{`R$ ${product.price}`}</Typography>
+                <Typography>{`R$ ${formatNumber(product.price)}`}</Typography>
               </Box>
             </Card>
           </Box>
@@ -178,7 +194,7 @@ export const ProductPayment = () => {
                 <Typography
                   component="span"
                   sx={styles.typoOrderSummary}
-                >{`R$ ${formatNumber(shipping)}`}</Typography>  
+                >{`R$ ${formatNumber(shipping)}`}</Typography>
               </Box>
 
               <Divider />

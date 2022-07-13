@@ -14,6 +14,7 @@ import { styles, theme } from "./styles";
 import { EDIT_PRODUCT, PAYMENT } from "../../routes/routes";
 import { ModalDelete } from "./modalDelete";
 import formatNumber from "../../utils/formatNumber";
+import api from "../../services/api";
 
 const actionButtons = [
   {
@@ -39,9 +40,11 @@ export const ProductCard = ({ product }) => {
     handleOpen();
   };
 
-  const handleDelete = () => {
-    alert("Item deletado com sucesso!");
-    handleClose();
+  const handleDelete = async () => {
+    // alert("Item deletado com sucesso!");
+    await api.delete(`/product/${product.id}`);
+    window.location.reload();
+    // handleClose();
   };
 
   return (

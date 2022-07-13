@@ -1,4 +1,4 @@
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { DesktopDatePicker, LocalizationProvider } from "@mui/x-date-pickers";
 import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
 import { useFormik } from "formik";
@@ -24,7 +24,16 @@ export const ProductForm = ({ edit, initialValues, onSubmit }) => {
   const formik = useFormik({
     initialValues,
     onSubmit,
+    enableReinitialize: true,
+    onReset: () => {
+      console.log("resetando");
+      formik.setValues({ initialValues });
+    },
   });
+
+  // useEffect(() => {
+  //   console.log(initialValues);
+  // }, [initialValues]);
 
   const handleChange = (newValue) => {
     setValue(formatISO(newValue));

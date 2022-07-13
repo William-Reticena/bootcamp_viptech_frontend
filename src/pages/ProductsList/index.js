@@ -1,14 +1,30 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Box, Button, ThemeProvider, Typography } from "@mui/material";
 import { AddCircle } from "@mui/icons-material";
 import { Header, Layout, ProductCard } from "../../components";
-import { products } from "../../fakeData/products/products";
+// import { products } from "../../fakeData/products/products";
 import { styles, theme } from "./styles";
 import { ADD_PRODUCT } from "../../routes/routes";
+import api from "../../services/api";
 
 export const ProductsList = () => {
+  const [products, setProducts] = useState([]);
   const navigate = useNavigate();
+
+  useEffect(() => {
+    const fetch = async () => {
+      try {
+        const { data } = await api.get("/product");
+
+        setProducts(data);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+
+    fetch();
+  }, []);
 
   return (
     <>

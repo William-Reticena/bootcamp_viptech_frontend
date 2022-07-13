@@ -11,6 +11,7 @@ import {
 import { Header, Layout, ProductForm } from "../../components";
 import { styles, theme } from "./styles";
 import { LIST_PRODUCTS } from "../../routes/routes";
+import api from "../../services/api";
 
 export const AddProduct = () => {
   const navigate = useNavigate();
@@ -37,12 +38,37 @@ export const AddProduct = () => {
     productColor: "",
     productDate: formatISO(new Date()),
     productImg: "",
-    productImgobj: "",
+    productImgObj: "",
   };
 
-  const handleCreate = (values) => {
-    alert(JSON.stringify(values, null, 2));
-    navigate(LIST_PRODUCTS);
+  const handleCreate = async (values) => {
+    // alert(JSON.stringify(values, null, 2));
+
+    const {
+      productName,
+      productBrand,
+      productPrice,
+      productColor,
+      productDate,
+      productImgObj,
+    } = values;
+
+    const file = new FormData();
+
+    file.append("file", productImgObj);
+    file.append("name", productName);
+    file.append("brand", productBrand);
+    file.append("price", productPrice);
+    file.append("color", productColor);
+    file.append("created_at", productDate);
+
+    try {
+      await api.post("/product", file);
+
+      navigate(LIST_PRODUCTS);
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   return (
