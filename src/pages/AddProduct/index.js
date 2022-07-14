@@ -21,7 +21,6 @@ export const AddProduct = () => {
       sx={{ color: "#0F4C81" }}
       underline="hover"
       key="1"
-      // color="primary"
       onClick={() => navigate(LIST_PRODUCTS)}
     >
       Home
@@ -42,8 +41,6 @@ export const AddProduct = () => {
   };
 
   const handleCreate = async (values) => {
-    // alert(JSON.stringify(values, null, 2));
-
     const {
       productName,
       productBrand,
@@ -58,7 +55,7 @@ export const AddProduct = () => {
     file.append("file", productImgObj);
     file.append("name", productName);
     file.append("brand", productBrand);
-    file.append("price", productPrice);
+    file.append("price", parseFloat(productPrice.toString().replace(",", ".")));
     file.append("color", productColor);
     file.append("created_at", productDate);
 

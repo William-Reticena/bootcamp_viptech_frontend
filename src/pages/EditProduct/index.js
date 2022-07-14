@@ -10,10 +10,8 @@ import {
 import { Header, Layout, ProductForm } from "../../components";
 import { styles, theme } from "./styles";
 import { LIST_PRODUCTS } from "../../routes/routes";
-// import { products } from "../../fakeData/products/products";
 import formatNumber from "../../utils/formatNumber";
 import api from "../../services/api";
-import { formatISO } from "date-fns";
 
 export const EditProduct = () => {
   const navigate = useNavigate();
@@ -34,7 +32,6 @@ export const EditProduct = () => {
     </Typography>,
   ];
 
-  //FALTA IMPLEMENTAR A EDIÇÃO DO PRODUTO
   useEffect(() => {
     const fetch = async () => {
       try {
@@ -55,8 +52,6 @@ export const EditProduct = () => {
   }, [id]);
 
   const handleEdit = async (values) => {
-    alert(JSON.stringify(values, null, 2));
-
     const {
       productName,
       productBrand,
@@ -67,8 +62,6 @@ export const EditProduct = () => {
       productImg,
     } = values;
 
-    // console.log(parseFloat(productPrice.toString().replace(",", ".")));
-
     const file = new FormData();
 
     file.append("file", productImgObj);
@@ -77,7 +70,7 @@ export const EditProduct = () => {
     file.append("price", parseFloat(productPrice.toString().replace(",", ".")));
     file.append("color", productColor);
     file.append("img", productImg);
-    file.append("created_at", formatISO(productDate));
+    file.append("created_at", productDate);
 
     try {
       await api.put(`/product/${id}`, file);

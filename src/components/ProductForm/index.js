@@ -49,13 +49,13 @@ export const ProductForm = ({ edit, initialValues, onSubmit }) => {
   });
 
   const handleChange = (newValue) => {
-    setValue(newValue);
+    setValue(formatISO(newValue));
 
     formik.setFieldValue("productDate", formatISO(newValue));
   };
 
   const handleImgClick = () => {
-    const reader = new FileReader(); 
+    const reader = new FileReader();
     fileRef.current.click();
 
     fileRef.current.addEventListener("change", () => {
@@ -68,13 +68,7 @@ export const ProductForm = ({ edit, initialValues, onSubmit }) => {
         );
 
         formik.setFieldValue("productImgObj", fileRef.current.files[0]);
-
-        // console.log(fileRef.current.files[0]);
       };
-
-      // reader.onabort = () => {
-      //   photoRef.current.src = AddPhoto;
-      // };
 
       reader.readAsDataURL(fileRef.current.files[0]);
     });

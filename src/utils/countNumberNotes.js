@@ -18,10 +18,7 @@ const countNumberNotes = (total) => {
       return notes.push({ bankNote: bankNotes[index], amount: item });
   });
 
-  // console.log(notes);
   return notes;
 };
-
-// countNumberNotes();
 
 export default countNumberNotes;

@@ -15,6 +15,7 @@ import { EDIT_PRODUCT, PAYMENT } from "../../routes/routes";
 import { ModalDelete } from "./modalDelete";
 import formatNumber from "../../utils/formatNumber";
 import api from "../../services/api";
+import AddPhoto from "../../img/Add_photo_alternate.png";
 
 const actionButtons = [
   {
@@ -36,15 +37,12 @@ export const ProductCard = ({ product }) => {
     if (button.to !== "#") {
       navigate(`${button.to}/${product.id}`);
     }
-    // console.log(button.to);
     handleOpen();
   };
 
   const handleDelete = async () => {
-    // alert("Item deletado com sucesso!");
     await api.delete(`/product/${product.id}`);
     window.location.reload();
-    // handleClose();
   };
 
   return (
@@ -54,7 +52,7 @@ export const ProductCard = ({ product }) => {
           <CardMedia
             alt={product.name}
             component="img"
-            src={product.img}
+            src={product.img ? product.img : AddPhoto}
             height={110}
             sx={styles.cardMedia}
           />

@@ -22,11 +22,11 @@ import { useNavigate, useParams } from "react-router-dom";
 import { Header, Layout } from "../../components";
 import { styles, theme } from "./styles";
 import { LIST_PRODUCTS } from "../../routes/routes";
-// import { products } from "../../fakeData/products/products";
 import countNumberNotes from "../../utils/countNumberNotes";
 import isPlural from "../../utils/isPlural";
 import formatNumber from "../../utils/formatNumber";
 import api from "../../services/api";
+import AddPhoto from "../../img/Add_photo_alternate.png";
 
 export const ProductPayment = () => {
   const [banknotes, setBanknotes] = useState([]);
@@ -35,7 +35,6 @@ export const ProductPayment = () => {
   const [product, setProduct] = useState("");
   const navigate = useNavigate();
   const { id } = useParams();
-  // const product = products[id - 1];
 
   const subtotal = product.price * inputValue;
   const shipping = subtotal * 0.1;
@@ -115,7 +114,7 @@ export const ProductPayment = () => {
                   <CardMedia
                     alt={product.name}
                     component="img"
-                    src={product.img}
+                    src={product.img ? product.img : AddPhoto}
                     height={110}
                     sx={styles.cardMedia}
                   />
@@ -235,7 +234,7 @@ export const ProductPayment = () => {
                   <Typography key={index} sx={styles.typoMoneyBill}>
                     <strong>{`${item.amount} ${isPlural(
                       item.amount,
-                      "cédula"
+                      item.bankNote !== 1 ? "cédula" : "moeda"
                     )}`}</strong>{" "}
                     de <strong>{`R$ ${item.bankNote},00`}</strong>
                   </Typography>
