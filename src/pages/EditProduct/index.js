@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-import { formatISO } from "date-fns";
 import { useNavigate, useParams } from "react-router-dom";
 import {
   Box,
@@ -11,13 +10,14 @@ import {
 import { Header, Layout, ProductForm } from "../../components";
 import { styles, theme } from "./styles";
 import { LIST_PRODUCTS } from "../../routes/routes";
-import { products } from "../../fakeData/products/products";
+// import { products } from "../../fakeData/products/products";
 import formatNumber from "../../utils/formatNumber";
 import api from "../../services/api";
+import { formatISO } from "date-fns";
 
 export const EditProduct = () => {
   const navigate = useNavigate();
-  const [initialValues, setInicialValues] = useState("");
+  const [initialValues, setInicialValues] = useState({});
   const { id } = useParams();
 
   const breadcrumbs = [
@@ -39,43 +39,54 @@ export const EditProduct = () => {
     const fetch = async () => {
       try {
         const { data } = await api.get(`/product/${id}`);
-        console.log(data);
         setInicialValues({
           productName: data.name,
           productBrand: data.brand,
           productPrice: formatNumber(data.price),
-          productColor: "Branco",
-          productDate: new Date("2022-07-10T12:37:24.000Z"),
+          productColor: data.color,
+          productDate: new Date(data.created_at),
           productImg: data.img,
         });
-
-        // console.log(product);
       } catch (error) {
         console.log(error);
       }
     };
     fetch();
   }, [id]);
-  // console.log(new Date("2022-07-13T12:37:24.000Z"));
 
-  // const initialValues = {
-  //   productName: product.name,
-  //   productBrand: product.brand,
-  //   productPrice: formatNumber(products[id - 1].price),
-  //   productColor: products[id - 1].color,
-  //   productDate: formatISO(new Date().getUTCDate()),
-  //   productImg: products[id - 1].img,
-  //   productImgObj: "",
-  // };
-
-  const handleEdit = (values) => {
+  const handleEdit = async (values) => {
     alert(JSON.stringify(values, null, 2));
+
+    const {
+      productName,
+      productBrand,
+      productPrice,
+      productColor,
+      productDate,
+      productImgObj,
+      productImg,
+    } = values;
+
+    // console.log(parseFloat(productPrice.toString().replace(",", ".")));
+
+    const file = new FormData();
+
+    file.append("file", productImgObj);
+    file.append("name", productName);
+    file.append("brand", productBrand);
+    file.append("price", parseFloat(productPrice.toString().replace(",", ".")));
+    file.append("color", productColor);
+    file.append("img", productImg);
+    file.append("created_at", formatISO(productDate));
+
+    try {
+      await api.put(`/product/${id}`, file);
+    } catch (error) {
+      console.log(error);
+    }
+
     navigate(LIST_PRODUCTS);
   };
-
-  // useEffect(() => {
-  //   console.log(product);
-  // }, [product]);
 
   return (
     <Layout>
@@ -91,11 +102,15 @@ export const EditProduct = () => {
             Editar Produto
           </Typography>
 
-          <ProductForm
-            edit
-            initialValues={initialValues}
-            onSubmit={handleEdit}
-          />
+          {Object.keys(initialValues).length ? (
+            <ProductForm
+              edit
+              initialValues={initialValues}
+              onSubmit={handleEdit}
+            />
+          ) : (
+            <></>
+          )}
         </Box>
       </ThemeProvider>
     </Layout>

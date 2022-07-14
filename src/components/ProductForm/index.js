@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useRef, useState } from "react";
 import * as yup from "yup";
 import { DesktopDatePicker, LocalizationProvider } from "@mui/x-date-pickers";
 import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
@@ -19,7 +19,9 @@ import { styles } from "./styles";
 import AddPhoto from "../../img/Add_photo_alternate.png";
 
 export const ProductForm = ({ edit, initialValues, onSubmit }) => {
-  const [value, setValue] = useState(new Date());
+  const [value, setValue] = useState(
+    initialValues.productDate ? initialValues.productDate : new Date()
+  );
   const photoRef = useRef();
   const fileRef = useRef();
 
@@ -44,26 +46,16 @@ export const ProductForm = ({ edit, initialValues, onSubmit }) => {
     validationSchema: schema,
     initialValues,
     onSubmit,
-    // enableReinitialize: true,
-    // onReset: () => {
-    //   console.log("resetando");
-    //   formik.setValues({ initialValues });
-    // },
   });
-
-  // useEffect(() => {
-  //   console.log(initialValues);
-  // }, [initialValues]);
 
   const handleChange = (newValue) => {
     setValue(newValue);
-    // console.log(newValue);
+
     formik.setFieldValue("productDate", formatISO(newValue));
-    // console.log(formatISO(newValue));
   };
 
   const handleImgClick = () => {
-    const reader = new FileReader();
+    const reader = new FileReader(); 
     fileRef.current.click();
 
     fileRef.current.addEventListener("change", () => {
