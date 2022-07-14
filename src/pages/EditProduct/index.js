@@ -12,6 +12,7 @@ import { styles, theme } from "./styles";
 import { LIST_PRODUCTS } from "../../routes/routes";
 import formatNumber from "../../utils/formatNumber";
 import api from "../../services/api";
+import { formatISO, parseISO } from "date-fns";
 
 export const EditProduct = () => {
   const navigate = useNavigate();
@@ -70,7 +71,7 @@ export const EditProduct = () => {
     file.append("price", parseFloat(productPrice.toString().replace(",", ".")));
     file.append("color", productColor);
     file.append("img", productImg);
-    file.append("created_at", productDate);
+    file.append("created_at", new Date(productDate).toISOString());
 
     try {
       await api.put(`/product/${id}`, file);
